@@ -1,17 +1,24 @@
 package org.tcrawley.clojure.runtime.shim;
 
 /**
-
+ * Provides a shim for accessing the Clojure runtime without loading Clojure classes in the
+ * current classLoader.
+ *
+ * @author toby@tcrawley.org
  */
 public abstract class ClojureRuntimeShim {
+    /**
+     * Creates a new runtime shim. The given classLoader must be able to find clojure classes and
+     * ClojureRuntimeShimImpl.
+     */
     public static ClojureRuntimeShim newRuntime(ClassLoader classLoader, String name) {
         ClojureRuntimeShim runtime;
         try {
             runtime = (ClojureRuntimeShim)classLoader
-                    .loadClass("org.tcrawley.clojure.runtime.shim.impl.ClojureRuntimeShimImpl" )
+                    .loadClass("org.tcrawley.clojure.runtime.shim.impl.ClojureRuntimeShimImpl")
                     .newInstance();
         } catch (Exception e) {
-            throw new RuntimeException( "Failed to load ClojureRuntimeImpl", e );
+            throw new RuntimeException("Failed to load ClojureRuntimeImpl", e);
         }
 
         runtime.setClassLoader( classLoader );
@@ -24,8 +31,6 @@ public abstract class ClojureRuntimeShim {
     public static ClojureRuntimeShim newRuntime(ClassLoader classLoader) {
         return newRuntime(classLoader, null);
     }
-
-    public abstract void init();
 
     public abstract void require(String... namespaces);
 
@@ -179,7 +184,7 @@ public abstract class ClojureRuntimeShim {
         return this.classLoader;
     }
 
-
+    public abstract void init();
 
     protected ClassLoader classLoader;
     protected String name;
