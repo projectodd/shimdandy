@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.tcrawley</groupId>
+  <artifactId>clojure-runtime-shim</artifactId>
+  <version>1.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>clojure-runtime-shim</name>
+  <url>https://github.com/tobias/clojure-runtime-shim/</url>
+
+  <developers>
+    <developer>
+      <id>tcrawey</id>
+      <name>Toby Crawley</name>
+      <email>toby@tcrawley.org</email>
+    </developer>
+  </developers>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <version.clojure>1.5.1</version.clojure>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.clojure</groupId>
+        <artifactId>clojure</artifactId>
+        <version>${version.clojure}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <modules>
+    <module>api</module>
+    <module>impl</module>
+  </modules>
+
+
+</project>
