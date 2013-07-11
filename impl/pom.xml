@@ -5,13 +5,14 @@
   <parent>
     <groupId>org.tcrawley</groupId>
     <artifactId>clojure-runtime-shim</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.0-SNAPSHOT</version>
   </parent>
   <groupId>org.tcrawley</groupId>
   <artifactId>clojure-runtime-shim-impl</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <name>clojure-runtime-shim-impl</name>
-    
+  <description>clojure-runtime-shim Implementation</description>
+
   <dependencies>
     <dependency>
       <groupId>org.tcrawley</groupId>

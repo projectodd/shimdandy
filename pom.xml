@@ -4,11 +4,32 @@
 
   <groupId>org.tcrawley</groupId>
   <artifactId>clojure-runtime-shim</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <description>clojure-runtime-shim parent POM</description>
 
   <name>clojure-runtime-shim</name>
-  <url>https://github.com/tobias/clojure-runtime-shim/</url>
+  <url>https://github.com/tobias/clojure-runtime-shim</url>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License - v 1.0</name>
+      <url>http://www.eclipse.org/legal/epl-v10.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
+  <scm>
+    <connection>scm:git:git@github.com:tobias/clojure-runtime-shim.git</connection>
+    <developerConnection>scm:git:git@github.com:tobias/clojure-runtime-shim.git</developerConnection>
+    <url>https://github.com/tobias/clojure-runtime-shim/</url>
+  </scm>
 
   <developers>
     <developer>
@@ -38,5 +59,17 @@
     <module>impl</module>
   </modules>
 
+<distributionManagement>
+  <repository>
+     <id>sonatype-nexus-staging</id>
+     <name>Nexus Staging Repo</name>
+     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+  </repository>
+  <snapshotRepository>
+     <id>sonatype-nexus-snapshots</id>
+     <name>Nexus Snapshot Repo</name>
+     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+  </snapshotRepository>
+</distributionManagement>
 
 </project>
