@@ -2,20 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.tcrawley</groupId>
-    <artifactId>clojure-runtime-shim</artifactId>
+    <groupId>org.projectodd.shimdandy</groupId>
+    <artifactId>shimdandy-parent</artifactId>
     <version>1.0.1-SNAPSHOT</version>
   </parent>
-  <groupId>org.tcrawley</groupId>
-  <artifactId>clojure-runtime-shim-impl</artifactId>
+  <groupId>org.projectodd.shimdandy</groupId>
+  <artifactId>shimdandy-impl</artifactId>
   <version>1.0.1-SNAPSHOT</version>
-  <name>clojure-runtime-shim-impl</name>
-  <description>clojure-runtime-shim Implementation</description>
+  <name>shimdandy-impl</name>
+  <description>shimdandy Implementation</description>
 
   <dependencies>
     <dependency>
-      <groupId>org.tcrawley</groupId>
-      <artifactId>clojure-runtime-shim-api</artifactId>
+      <groupId>org.projectodd.shimdandy</groupId>
+      <artifactId>shimdandy-api</artifactId>
       <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>

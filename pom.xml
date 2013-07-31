@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.tcrawley</groupId>
-  <artifactId>clojure-runtime-shim</artifactId>
+  <groupId>org.projectodd.shimdandy</groupId>
+  <artifactId>shimdandy-parent</artifactId>
   <version>1.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <description>clojure-runtime-shim parent POM</description>
+  <description>Shimdandy parent POM</description>
 
-  <name>clojure-runtime-shim</name>
-  <url>https://github.com/tobias/clojure-runtime-shim</url>
+  <name>shimdandy-parent</name>
+  <url>https://github.com/projectodd/shimdandy</url>
 
   <licenses>
     <license>
@@ -26,9 +26,9 @@
   </parent>
 
   <scm>
-    <connection>scm:git:git@github.com:tobias/clojure-runtime-shim.git</connection>
-    <developerConnection>scm:git:git@github.com:tobias/clojure-runtime-shim.git</developerConnection>
-    <url>https://github.com/tobias/clojure-runtime-shim/</url>
+    <connection>scm:git:git@github.com:projectodd/shimdandy.git</connection>
+    <developerConnection>scm:git:git@github.com:projectodd/shimdandy.git</developerConnection>
+    <url>https://github.com/projectodd/shimdandy/</url>
   </scm>
 
   <developers>

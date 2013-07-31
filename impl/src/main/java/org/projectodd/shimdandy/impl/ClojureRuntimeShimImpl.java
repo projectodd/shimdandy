@@ -1,10 +1,10 @@
-package org.tcrawley.clojure.runtime.shim.impl;
+package org.projectodd.shimdandy.impl;
 
 import clojure.lang.IFn;
 import clojure.lang.RT;
 import clojure.lang.Symbol;
 import clojure.lang.Var;
-import org.tcrawley.clojure.runtime.shim.ClojureRuntimeShim;
+import org.projectodd.shimdandy.ClojureRuntimeShim;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +15,7 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
     public void init() {
         ClassLoader origLoader = preInvoke();
         try {
-            this.require = RT.var("clojure.core", "require");
+            this.require = RT.var("shimdandy.core", "require");
             clojure.lang.Compiler.LOADER.bindRoot(this.classLoader);
 
             require.invoke( Symbol.create( "immutant.runtime" ) );
@@ -41,7 +41,7 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
             ClassLoader origLoader = preInvoke();
             try {
                 String[] parts = namespacedFunction.split( "/" );
-                RT.var( "clojure.core", "require" ).invoke( Symbol.create( parts[0] ) );
+                RT.var( "shimdandy.core", "require" ).invoke( Symbol.create( parts[0] ) );
                 var = RT.var( parts[0], parts[1] );
                 this.varCache.put( namespacedFunction, var );
             } catch (Exception e) {
