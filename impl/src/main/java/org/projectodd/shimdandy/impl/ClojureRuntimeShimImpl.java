@@ -15,10 +15,8 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
     public void init() {
         ClassLoader origLoader = preInvoke();
         try {
-            this.require = RT.var("shimdandy.core", "require");
+            this.require = RT.var("clojure.core", "require");
             clojure.lang.Compiler.LOADER.bindRoot(this.classLoader);
-
-            require.invoke( Symbol.create( "immutant.runtime" ) );
         } finally {
             postInvoke(origLoader);
         }
@@ -41,7 +39,7 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
             ClassLoader origLoader = preInvoke();
             try {
                 String[] parts = namespacedFunction.split( "/" );
-                RT.var( "shimdandy.core", "require" ).invoke( Symbol.create( parts[0] ) );
+                RT.var( "clojure.core", "require" ).invoke( Symbol.create( parts[0] ) );
                 var = RT.var( parts[0], parts[1] );
                 this.varCache.put( namespacedFunction, var );
             } catch (Exception e) {
