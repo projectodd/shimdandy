@@ -16,6 +16,7 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
         ClassLoader origLoader = preInvoke();
         try {
             this.require = RT.var("clojure.core", "require");
+            this.resolve = RT.var("clojure.core", "resolve");
             clojure.lang.Compiler.LOADER.bindRoot(this.classLoader);
         } finally {
             postInvoke(origLoader);
@@ -38,10 +39,15 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
         if (var == null) {
             ClassLoader origLoader = preInvoke();
             try {
-                String[] parts = namespacedFunction.split( "/" );
-                RT.var( "clojure.core", "require" ).invoke( Symbol.create( parts[0] ) );
-                var = RT.var( parts[0], parts[1] );
-                this.varCache.put( namespacedFunction, var );
+                var = (Var)this.resolve.invoke(Symbol.create(namespacedFunction));
+                if (var == null) {
+                    String[] parts = namespacedFunction.split("/");
+                    this.require.invoke(Symbol.create(parts[0]));
+                    var = RT.var(parts[0], parts[1]);
+                }
+                if (var != null) {
+                    this.varCache.put(namespacedFunction, var);
+                }
             } catch (Exception e) {
                 throw new RuntimeException( "Failed to load Var " + namespacedFunction, e );
             } finally {
@@ -580,6 +586,7 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
         }
     }
 
-    private Map<String, Var> varCache = new HashMap<String, Var>();
+    private final Map<String, Var> varCache = new HashMap<String, Var>();
     private Var require;
+    private Var resolve;
 }
