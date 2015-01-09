@@ -6,9 +6,6 @@ import clojure.lang.Symbol;
 import clojure.lang.Var;
 import org.projectodd.shimdandy.ClojureRuntimeShim;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  */
 public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
@@ -35,27 +32,21 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
     }
 
     protected Var var(String namespacedFunction) {
-        Var var = this.varCache.get( namespacedFunction );
-        if (var == null) {
-            ClassLoader origLoader = preInvoke();
-            try {
-                var = (Var)this.resolve.invoke(Symbol.create(namespacedFunction));
-                if (var == null) {
-                    String[] parts = namespacedFunction.split("/");
-                    this.require.invoke(Symbol.create(parts[0]));
-                    var = RT.var(parts[0], parts[1]);
-                }
-                if (var != null) {
-                    this.varCache.put(namespacedFunction, var);
-                }
-            } catch (Exception e) {
-                throw new RuntimeException( "Failed to load Var " + namespacedFunction, e );
-            } finally {
-                postInvoke( origLoader );
+        ClassLoader origLoader = preInvoke();
+        try {
+            Var var = (Var)this.resolve.invoke(Symbol.create(namespacedFunction));
+            if (var == null) {
+                String[] parts = namespacedFunction.split("/");
+                this.require.invoke(Symbol.create(parts[0]));
+                var = RT.var(parts[0], parts[1]);
             }
-        }
 
-        return var;
+            return var;
+        } catch (Exception e) {
+            throw new RuntimeException( "Failed to load Var " + namespacedFunction, e );
+        } finally {
+            postInvoke( origLoader );
+        }
     }
 
     @Override
@@ -586,7 +577,6 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
         }
     }
 
-    private final Map<String, Var> varCache = new HashMap<String, Var>();
     private Var require;
     private Var resolve;
 }
