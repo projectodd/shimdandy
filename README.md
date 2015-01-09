@@ -32,21 +32,21 @@ Example:
                   new URL("file:/path/to/app/src/")};
     ClassLoader cl = new URLClassLoader(urls, parentClassLoader);
     ClojureRuntimeShim runtime = ClojureRuntimeShim.newRuntime(cl, "my-app-name");
-    
+
     runtime.require("my-app.core");
     Object retval = runtime.invoke("my-app.core/some-fn", arg1, arg2);
 
-The latest version is `1.0.1`:
+The latest version is `1.1.0`:
 
     <dependency>
       <groupId>org.projectodd.shimdandy</groupId>
       <artifactId>shimdandy-api</artifactId>
-      <version>1.0.1</version>
+      <version>1.1.0</version>
     </dependency>
-    
+
 I realize the example here is pretty sparse,
 [ping me](mailto:toby@tcrawley.org) if you have any questions.
 
-Copyright (C) 2013-2014 Tobias Crawley.
+Copyright (C) 2013-2015 Tobias Crawley.
 
 Licensed under the Eclipse Public License v1.0
