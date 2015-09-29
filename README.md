@@ -44,8 +44,25 @@ The latest version is `1.1.0`:
       <version>1.1.0</version>
     </dependency>
 
-I realize the example here is pretty sparse,
-[ping me](mailto:toby@tcrawley.org) if you have any questions.
+## Shutting down the shim
+
+If any code in the shim used an agent or a future, the agent thread
+pool will have been started, and those threads will continue to run
+after you are done with the shim, which will consume a few resources,
+but the bigger concern is the contextClassLoader for those threads
+will hold a reference to the shim's classloader, which will prevent
+any classes loaded in the shim from being unloaded, which will
+eventually cause an OutOfMemoryException from exhausted permgen space
+if you create lots of shims. It's best practice to shutdown the agent
+pool when you are done with the shim to prevent this:
+
+    runtime.invoke("clojure.core/shutdown-agents");
+
+In addition, be sure to use Clojure 1.6.0 or newer to prevent
+[other memory leaks](http://dev.clojure.org/jira/browse/CLJ-1125).
+
+I realize the example here is pretty sparse - please file an issue if
+you have any questions.
 
 Copyright (C) 2013-2015 Tobias Crawley.
 
