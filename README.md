@@ -48,20 +48,21 @@ The latest version is `1.1.0`:
 
 If any code in the shim used an agent or a future, the agent thread
 pool will have been started, and those threads will continue to run
-after you are done with the shim, which will consume a few resources,
+after you are done with the shim. This will consume a few resources,
 but the bigger concern is the contextClassLoader for those threads
 will hold a reference to the shim's classloader, which will prevent
-any classes loaded in the shim from being unloaded, which will
+any classes loaded in the shim from being unloaded. Those classes will
 eventually cause an OutOfMemoryException from exhausted permgen space
-if you create lots of shims. It's best practice to shutdown the agent
+if you create lots of shims. It's best practice to shut down the agent
 pool when you are done with the shim to prevent this:
 
     runtime.invoke("clojure.core/shutdown-agents");
 
 This same caveat applies to any other threads started from within the
 shim - you need to make sure they are stopped. One particular culprit
-is the `clojure.core.async.impl.timers/timeout-daemon` thread, if you
-use `core.async`, you need to interrupt that thread on shim shutdown.
+is the `clojure.core.async.impl.timers/timeout-daemon` thread. If you
+use `core.async`, you need to interrupt that thread on shim shutdown
+to interrupt its loop and allow it to exit.
 
 In addition, be sure to use Clojure 1.6.0 or newer to prevent
 [other memory leaks](http://dev.clojure.org/jira/browse/CLJ-1125).
