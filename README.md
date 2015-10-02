@@ -44,7 +44,7 @@ The latest version is `1.1.0`:
       <version>1.1.0</version>
     </dependency>
 
-## Shutting down the shim
+## Preventing memory leaks
 
 If any code in the shim used an agent or a future, the agent thread
 pool will have been started, and those threads will continue to run
@@ -57,6 +57,11 @@ if you create lots of shims. It's best practice to shutdown the agent
 pool when you are done with the shim to prevent this:
 
     runtime.invoke("clojure.core/shutdown-agents");
+
+This same caveat applies to any other threads started from within the
+shim - you need to make sure they are stopped. One particular culprit
+is the `clojure.core.async.impl.timers/timeout-daemon` thread, if you
+use `core.async`, you need to interrupt that thread on shim shutdown.
 
 In addition, be sure to use Clojure 1.6.0 or newer to prevent
 [other memory leaks](http://dev.clojure.org/jira/browse/CLJ-1125).
