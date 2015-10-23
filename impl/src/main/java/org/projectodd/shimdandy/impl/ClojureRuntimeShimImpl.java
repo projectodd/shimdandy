@@ -6,29 +6,50 @@ import clojure.lang.Symbol;
 import clojure.lang.Var;
 import org.projectodd.shimdandy.ClojureRuntimeShim;
 
+import java.lang.reflect.Field;
+import java.util.concurrent.atomic.AtomicLong;
+
 /**
  */
 public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
     public void init() {
         ClassLoader origLoader = preInvoke();
+        Exception ex = null;
         try {
+            Field dvalField = Var.class.getDeclaredField("dvals");
+            dvalField.setAccessible(true);
+            this.dvals = (ThreadLocal)dvalField.get(null);
+            
             this.require = RT.var("clojure.core", "require");
             this.resolve = RT.var("clojure.core", "resolve");
             clojure.lang.Compiler.LOADER.bindRoot(this.classLoader);
+        } catch (IllegalAccessException e) {
+            ex = e;
+        } catch (NoSuchFieldException e) {
+            ex = e;
         } finally {
             postInvoke(origLoader);
+        }
+
+        if (ex != null) {
+            throw new RuntimeException("Failed to access Var.dvals", ex);
         }
     }
 
     protected ClassLoader preInvoke() {
-        ClassLoader originalClassloader = Thread.currentThread().getContextClassLoader();
-        Thread.currentThread().setContextClassLoader( this.classLoader );
+        final ClassLoader originalClassloader = Thread.currentThread().getContextClassLoader();
+        Thread.currentThread().setContextClassLoader(this.classLoader);
+        this.callDepth.get().getAndIncrement();
 
         return originalClassloader;
     }
 
     protected void postInvoke(ClassLoader loader) {
-        Thread.currentThread().setContextClassLoader( loader );
+        if (this.callDepth.get().decrementAndGet() == 0) {
+            this.dvals.remove();
+            this.callDepth.remove();
+        }
+        Thread.currentThread().setContextClassLoader(loader);
     }
 
     protected Var var(String namespacedFunction) {
@@ -579,4 +600,10 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
 
     private Var require;
     private Var resolve;
+    private ThreadLocal dvals;
+    private final ThreadLocal<AtomicLong> callDepth = new ThreadLocal<AtomicLong>() {
+      protected AtomicLong initialValue() {
+          return new AtomicLong(0);
+      }
+    };
 }
