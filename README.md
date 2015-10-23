@@ -36,6 +36,10 @@ Example:
     runtime.require("my-app.core");
     Object retval = runtime.invoke("my-app.core/some-fn", arg1, arg2);
 
+When you are done with a shim, you should close it:
+
+    runtime.close();
+
 The latest version is `1.1.0`:
 
     <dependency>
@@ -53,16 +57,19 @@ but the bigger concern is the contextClassLoader for those threads
 will hold a reference to the shim's classloader, which will prevent
 any classes loaded in the shim from being unloaded. Those classes will
 eventually cause an OutOfMemoryException from exhausted permgen space
-if you create lots of shims. It's best practice to shut down the agent
-pool when you are done with the shim to prevent this:
-
-    runtime.invoke("clojure.core/shutdown-agents");
+if you create lots of shims. It's best practice to `close()` the shim
+when you are done with it (see above). This will shutdown the agent
+pool for you.
 
 This same caveat applies to any other threads started from within the
 shim - you need to make sure they are stopped. One particular culprit
 is the `clojure.core.async.impl.timers/timeout-daemon` thread. If you
 use `core.async`, you need to interrupt that thread on shim shutdown
 to interrupt its loop and allow it to exit.
+
+If you are using a `URLClassLoader`, you should also `close()` it when
+you are done with the shim, as some implementations may leak file
+descriptors.
 
 In addition, be sure to use Clojure 1.6.0 or newer to prevent
 [other memory leaks](http://dev.clojure.org/jira/browse/CLJ-1125).
