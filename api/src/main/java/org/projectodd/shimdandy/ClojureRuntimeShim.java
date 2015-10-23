@@ -18,7 +18,7 @@ public abstract class ClojureRuntimeShim {
                     .loadClass("org.projectodd.shimdandy.impl.ClojureRuntimeShimImpl")
                     .newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load ClojureRuntimeImpl", e);
+            throw new RuntimeException("Failed to load ClojureRuntimeShimImpl", e);
         }
 
         runtime.setClassLoader( classLoader );
