@@ -40,12 +40,12 @@ When you are done with a shim, you should close it:
 
     runtime.close();
 
-The latest version is `1.1.0`:
+The latest version is `1.2.0`:
 
     <dependency>
       <groupId>org.projectodd.shimdandy</groupId>
       <artifactId>shimdandy-api</artifactId>
-      <version>1.1.0</version>
+      <version>1.2.0</version>
     </dependency>
 
 ## Preventing memory leaks
