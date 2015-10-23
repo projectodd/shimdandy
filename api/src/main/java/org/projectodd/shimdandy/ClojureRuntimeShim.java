@@ -32,6 +32,10 @@ public abstract class ClojureRuntimeShim {
         return newRuntime(classLoader, null);
     }
 
+    public void close() {
+        invoke("clojure.core/shutdown-agents");
+    }
+
     public abstract void require(String... namespaces);
 
     public abstract Object invoke(String namespacedFunction);
