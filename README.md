@@ -12,8 +12,8 @@ and for calling in to the runtimes from the app.
 ## Usage
 
 The project provides two artifacts: `shimdandy-api.jar` and
-`shimdandy-impl.jar`. `shimdandy-api` can be on the boot classpath of
-your app, but `shimdandy-impl` should not be on the boot classpath or
+`shimdandy-impl.jar`. `shimdandy-api` can be on the classpath of
+your app, but `shimdandy-impl` should not be on the classpath or
 exposed to any ClassLoader initially. Nor should any Clojure jars -
 having a Clojure jar on the classpath will cause the RT from that jar
 (and only that RT) to be loaded, preventing isolation.
