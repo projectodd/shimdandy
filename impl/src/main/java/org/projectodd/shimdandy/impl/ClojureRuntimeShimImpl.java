@@ -14,7 +14,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
     public void init() {
         ClassLoader origLoader = preInvoke();
-        Exception ex = null;
         try {
             Field dvalField = Var.class.getDeclaredField("dvals");
             dvalField.setAccessible(true);
@@ -23,16 +22,10 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
             this.require = RT.var("clojure.core", "require");
             this.resolve = RT.var("clojure.core", "resolve");
             clojure.lang.Compiler.LOADER.bindRoot(this.classLoader);
-        } catch (IllegalAccessException e) {
-            ex = e;
-        } catch (NoSuchFieldException e) {
-            ex = e;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to initialize ClojureRuntimeShimImpl", ex);
         } finally {
             postInvoke(origLoader);
-        }
-
-        if (ex != null) {
-            throw new RuntimeException("Failed to access Var.dvals", ex);
         }
     }
 
@@ -46,7 +39,9 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
 
     protected void postInvoke(ClassLoader loader) {
         if (this.callDepth.get().decrementAndGet() == 0) {
-            this.dvals.remove();
+            if (this.dvals != null) {
+                this.dvals.remove();
+            }
             this.callDepth.remove();
         }
         Thread.currentThread().setContextClassLoader(loader);
