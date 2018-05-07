@@ -23,7 +23,7 @@ public class ClojureRuntimeShimImpl extends ClojureRuntimeShim {
             this.resolve = RT.var("clojure.core", "resolve");
             clojure.lang.Compiler.LOADER.bindRoot(this.classLoader);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to initialize ClojureRuntimeShimImpl", ex);
+            throw new RuntimeException("Failed to initialize ClojureRuntimeShimImpl", e);
         } finally {
             postInvoke(origLoader);
         }
