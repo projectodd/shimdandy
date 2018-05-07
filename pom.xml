@@ -59,17 +59,33 @@
     <module>impl</module>
   </modules>
 
-<distributionManagement>
-  <repository>
-     <id>sonatype-nexus-staging</id>
-     <name>Nexus Staging Repo</name>
-     <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-  </repository>
-  <snapshotRepository>
-     <id>sonatype-nexus-snapshots</id>
-     <name>Nexus Snapshot Repo</name>
-     <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-  </snapshotRepository>
-</distributionManagement>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>sonatype-nexus-staging</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <distributionManagement>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Staging Repo</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Nexus Snapshot Repo</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>
