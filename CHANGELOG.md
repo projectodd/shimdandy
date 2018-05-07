@@ -1,4 +1,4 @@
-## 1.2.1
+## 1.2.1 (2018-05-06)
 
 * Don't throw an NPE when Clojure isn't on the classloader's effective
   classpath

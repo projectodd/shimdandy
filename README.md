@@ -40,12 +40,12 @@ When you are done with a shim, you should close it:
 
     runtime.close();
 
-The latest version is `1.2.0`:
+The latest version is `1.2.1`:
 
     <dependency>
       <groupId>org.projectodd.shimdandy</groupId>
       <artifactId>shimdandy-api</artifactId>
-      <version>1.2.0</version>
+      <version>1.2.1</version>
     </dependency>
 
 ## Preventing memory leaks
@@ -77,6 +77,6 @@ In addition, be sure to use Clojure 1.6.0 or newer to prevent
 I realize the example here is pretty sparse - please file an issue if
 you have any questions.
 
-Copyright (C) 2013-2015 Tobias Crawley.
+Copyright (C) 2013-2018 Tobias Crawley.
 
 Licensed under the Eclipse Public License v1.0
